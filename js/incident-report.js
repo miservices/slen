@@ -101,23 +101,19 @@ document.getElementById("reportForm").addEventListener("submit", function(e) {
         }
     });
 
-    // ===== SAVE TO LOCALSTORAGE =====
-    let reports = JSON.parse(localStorage.getItem("reports") || "[]");
-
     // Assign unique Report Number if empty
     if(!json.reportNumber || json.reportNumber === "Auto-generated") {
         json.reportNumber = "RPT-" + Date.now(); // simple unique ID
     }
 
-    // Add new report to array
-    reports.push(json);
-
-    // Save back to LocalStorage
-    localStorage.setItem("reports", JSON.stringify(reports));
+    // ===== SAVE TO LOCALSTORAGE =====
+    let reports = JSON.parse(localStorage.getItem("reports") || "[]");
+    reports.push(json);  // add new report
+    localStorage.setItem("reports", JSON.stringify(reports)); // save
 
     alert("Report submitted and saved!");
     console.log("Saved Reports:", reports);
 
-    // Optional: reset form if desired
+    // Optional: reset form
     // this.reset();
 });
