@@ -1,16 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Report Lookup</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="css/report-lookup.css">
+    <meta charset="UTF-8">
+    <title>FPD Report Lookup</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/lookup.css">
 </head>
 <body>
-    <h1>FPD Report Lookup</h1>
-    <div id="reportCards" class="cards-container"></div>
-    <div id="reportDetails" class="details-container"></div>
 
-<script src="js/report-lookup.js"></script>
+<div class="lookup-container">
+    <h1>FPD Reports</h1>
+    
+    <!-- List View -->
+    <div id="reportList" class="report-list"></div>
+
+    <!-- Detailed View -->
+    <div id="reportDetail" class="report-detail hidden">
+        <button id="closeDetail">× Close</button>
+        <div id="detailContent"></div>
+    </div>
+</div>
+
+<script src="js/lookup.js"></script>
 </body>
 </html>
