@@ -4,74 +4,7 @@
     <meta charset="UTF-8">
     <title>FPD CAD System</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/style.css">
-    <style>
-        /* Additional dashboard styling */
-        body {
-            flex-direction: column;
-            align-items: flex-start;
-            padding: 20px;
-        }
-
-        .home-container {
-            width: 100%;
-            max-width: 1200px;
-            background-color: #0f243a;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 25px rgba(0,0,0,0.6);
-            color: #ffffff;
-        }
-
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .header h1 {
-            margin: 0;
-        }
-
-        .header button {
-            width: auto;
-            padding: 8px 16px;
-            font-size: 14px;
-            background-color: #b02a2a;
-        }
-
-        .user-info {
-            margin: 15px 0;
-        }
-
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 15px;
-        }
-
-        .dashboard-card {
-            background-color: #1b3b5b;
-            padding: 15px;
-            border-radius: 6px;
-            text-align: center;
-            transition: 0.2s;
-            cursor: pointer;
-        }
-
-        .dashboard-card:hover {
-            background-color: #2b5a82;
-        }
-
-        .dashboard-card h3 {
-            margin: 10px 0 5px;
-        }
-
-        .dashboard-card p {
-            font-size: 12px;
-            color: #cfe3ff;
-        }
-    </style>
+    <link rel="stylesheet" href="css/home.css">
 </head>
 <body>
 
@@ -86,36 +19,16 @@
     <h2>Dashboard</h2>
     <div class="dashboard-grid">
         <div class="dashboard-card">
-            <h3>Call Logs</h3>
-            <p>View recent 911 calls and dispatch history</p>
-        </div>
-        <div class="dashboard-card">
-            <h3>Unit Status</h3>
-            <p>Track officer locations and availability</p>
-        </div>
-        <div class="dashboard-card">
-            <h3>Arrests</h3>
-            <p>Recent arrests and suspect info</p>
-        </div>
-        <div class="dashboard-card">
             <h3>Reports</h3>
             <p>Create or review incident reports</p>
         </div>
         <div class="dashboard-card">
-            <h3>Warrants</h3>
-            <p>Check outstanding warrants</p>
+            <h3>Arrests</h3>
+            <p>View recent arrests and suspect information</p>
         </div>
-        <div class="dashboard-card">
-            <h3>License Plate Lookup</h3>
-            <p>Vehicle info and registration</p>
-        </div>
-        <div class="dashboard-card">
-            <h3>Evidence</h3>
-            <p>View or manage evidence entries</p>
-        </div>
-        <div class="dashboard-card">
-            <h3>Messaging</h3>
-            <p>Internal communication with units</p>
+        <div class="dashboard-card" onclick="window.open('https://www.miottawa.org/Courts/OnlineServices.htm', '_blank')">
+            <h3>Court</h3>
+            <p>File or view court cases</p>
         </div>
     </div>
 </div>

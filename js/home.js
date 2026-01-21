@@ -3,8 +3,8 @@ if (localStorage.getItem("loggedIn") !== "true") {
     window.location.href = "index.html";
 }
 
+// Display user info
 const user = JSON.parse(localStorage.getItem("userData"));
-
 document.getElementById("userInfo").innerHTML = `
     <strong>${user.name}</strong><br>
     ${user.position}<br>
@@ -12,6 +12,7 @@ document.getElementById("userInfo").innerHTML = `
     ${user.department}
 `;
 
+// Logout function
 function logout() {
     localStorage.removeItem("loggedIn");
     localStorage.removeItem("userData");
