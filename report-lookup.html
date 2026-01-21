@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FPD Report Lookup</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/report-lookup.css">
+</head>
+<body>
+<div class="lookup-container">
+    <h1>FPD Report Lookup</h1>
+
+    <div class="search-filters">
+        <input type="text" id="searchNumber" placeholder="Search by Report Number">
+        <input type="text" id="searchOfficer" placeholder="Search by Officer">
+        <select id="searchType">
+            <option value="">All Types</option>
+            <option value="incident">Incident</option>
+            <option value="arrest">Arrest</option>
+            <option value="accident">Accident</option>
+        </select>
+        <button onclick="filterReports()">Search</button>
+        <button onclick="resetFilters()">Reset</button>
+    </div>
+
+    <table id="reportsTable">
+        <thead>
+            <tr>
+                <th>Report Number</th>
+                <th>Date & Time</th>
+                <th>Officer</th>
+                <th>Type</th>
+                <th>View</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Reports will populate here -->
+        </tbody>
+    </table>
+
+    <!-- Modal for full report details -->
+    <div id="reportModal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <pre id="fullReport"></pre>
+        </div>
+    </div>
+</div>
+
+<script src="js/report-lookup.js"></script>
+</body>
+</html>

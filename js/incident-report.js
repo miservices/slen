@@ -88,6 +88,8 @@ function addPropertyDamage() {
 // ===== FORM SUBMIT =====
 document.getElementById("reportForm").addEventListener("submit", function(e) {
     e.preventDefault();
+
+    // Collect form data
     const data = new FormData(this);
     const json = {};
     data.forEach((value, key) => {
@@ -98,6 +100,24 @@ document.getElementById("reportForm").addEventListener("submit", function(e) {
             json[key] = value;
         }
     });
-    console.log("REPORT DATA:", json);
-    alert("Report submitted! Check console for data.");
+
+    // ===== SAVE TO LOCALSTORAGE =====
+    let reports = JSON.parse(localStorage.getItem("reports") || "[]");
+
+    // Assign unique Report Number if empty
+    if(!json.reportNumber || json.reportNumber === "Auto-generated") {
+        json.reportNumber = "RPT-" + Date.now(); // simple unique ID
+    }
+
+    // Add new report to array
+    reports.push(json);
+
+    // Save back to LocalStorage
+    localStorage.setItem("reports", JSON.stringify(reports));
+
+    alert("Report submitted and saved!");
+    console.log("Saved Reports:", reports);
+
+    // Optional: reset form if desired
+    // this.reset();
 });
