@@ -1,4 +1,3 @@
-// USER DATABASE (FRONT-END SIMULATION)
 const users = [
     {
         name: "Stiff Stiffler",
@@ -6,11 +5,11 @@ const users = [
         badge: "837",
         position: "Sergeant",
         username: "stiffler837",
-        password: "auto."
+        password: "71657165Fr."
     }
 ];
 
-// Auto-fill saved credentials
+// Autofill saved credentials
 window.onload = () => {
     const savedUser = localStorage.getItem("savedUsername");
     const savedPass = localStorage.getItem("savedPassword");
@@ -21,14 +20,17 @@ window.onload = () => {
     }
 };
 
-document.getElementById("loginForm").addEventListener("submit", function(e) {
+document.getElementById("loginForm").addEventListener("submit", function (e) {
     e.preventDefault();
 
-    const username = document.getElementById("username").value;
-    const password = document.getElementById("password").value;
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value.trim();
 
-    const user = users.find(
-        u => u.username === username && u.password === password
+    console.log("Attempting login:", username, password); // DEBUG
+
+    const user = users.find(u =>
+        u.username.trim() === username &&
+        u.password.trim() === password
     );
 
     if (!user) {
@@ -36,11 +38,8 @@ document.getElementById("loginForm").addEventListener("submit", function(e) {
         return;
     }
 
-    // Save login session
     localStorage.setItem("loggedIn", "true");
     localStorage.setItem("userData", JSON.stringify(user));
-
-    // Save credentials for autofill
     localStorage.setItem("savedUsername", username);
     localStorage.setItem("savedPassword", password);
 
