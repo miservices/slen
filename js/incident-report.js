@@ -1,18 +1,23 @@
-// Pre-fill defaults
+// ===== PRE-FILL DEFAULTS =====
 window.onload = () => {
     const officer = JSON.parse(localStorage.getItem("userData")) || { name: "" };
     document.getElementById("reportingOfficer").value = officer.name;
     document.getElementById("reportDateTime").value = new Date().toISOString().slice(0,16);
+
+    // Show/hide sections based on type
+    toggleReportSections();
 };
 
-// Show/hide sections based on report type
-document.getElementById("reportType").addEventListener("change", function() {
-    const type = this.value;
+// ===== TOGGLE ARREST/ACCIDENT SECTIONS =====
+document.getElementById("reportType").addEventListener("change", toggleReportSections);
+
+function toggleReportSections() {
+    const type = document.getElementById("reportType").value;
     document.getElementById("arrestSection").classList.toggle("hidden", type !== "arrest");
     document.getElementById("accidentSection").classList.toggle("hidden", type !== "accident");
-});
+}
 
-// ===== PERSONS =====
+// ===== ADD PERSON =====
 function addPerson(type) {
     const container = document.getElementById(type + "List");
     const div = document.createElement("div");
@@ -30,7 +35,7 @@ function addPerson(type) {
     container.appendChild(div);
 }
 
-// ===== SEIZED PROPERTY =====
+// ===== ADD SEIZED PROPERTY =====
 function addSeizedProperty() {
     const container = document.getElementById("seizedPropertyList");
     const div = document.createElement("div");
@@ -42,7 +47,7 @@ function addSeizedProperty() {
     container.appendChild(div);
 }
 
-// ===== CHARGES =====
+// ===== ADD CHARGE =====
 function addCharge() {
     const container = document.getElementById("chargeList");
     const div = document.createElement("div");
@@ -55,7 +60,7 @@ function addCharge() {
     container.appendChild(div);
 }
 
-// ===== VEHICLES =====
+// ===== ADD VEHICLE =====
 function addVehicle() {
     const container = document.getElementById("vehicleList");
     const div = document.createElement("div");
@@ -76,7 +81,7 @@ function addVehicle() {
     container.appendChild(div);
 }
 
-// ===== PROPERTY DAMAGE =====
+// ===== ADD PROPERTY DAMAGE =====
 function addPropertyDamage() {
     const container = document.getElementById("propertyDamageList");
     const div = document.createElement("div");
@@ -89,9 +94,10 @@ function addPropertyDamage() {
 document.getElementById("reportForm").addEventListener("submit", function(e) {
     e.preventDefault();
 
-    // Collect form data
     const data = new FormData(this);
     const json = {};
+
+    // Convert FormData into JSON
     data.forEach((value, key) => {
         if(json[key]) {
             if(Array.isArray(json[key])) json[key].push(value);
@@ -101,19 +107,18 @@ document.getElementById("reportForm").addEventListener("submit", function(e) {
         }
     });
 
-    // Assign unique Report Number if empty
+    // Assign unique report number if empty
     if(!json.reportNumber || json.reportNumber === "Auto-generated") {
-        json.reportNumber = "RPT-" + Date.now(); // simple unique ID
+        json.reportNumber = "RPT-" + Date.now();
     }
 
-    // ===== SAVE TO LOCALSTORAGE =====
+    // Save to localStorage
     let reports = JSON.parse(localStorage.getItem("reports") || "[]");
-    reports.push(json);  // add new report
-    localStorage.setItem("reports", JSON.stringify(reports)); // save
+    reports.push(json);
+    localStorage.setItem("reports", JSON.stringify(reports));
 
     alert("Report submitted and saved!");
     console.log("Saved Reports:", reports);
-
-    // Optional: reset form
+    // Optionally reset the form
     // this.reset();
 });
