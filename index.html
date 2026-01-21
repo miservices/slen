@@ -1,1 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Flint Police Department | CAD / MDT Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: linear-gradient(135deg, #0b1c2d, #1a3552);
+            color: #ffffff;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-container {
+            width: 420px;
+            background-color: #0f243a;
+            border-radius: 8px;
+            box-shadow: 0 0 25px rgba(0,0,0,0.6);
+            padding: 30px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            font-size: 20px;
+            margin: 0;
+            letter-spacing: 1px;
+        }
+
+        .header p {
+            font-size: 12px;
+            color: #b0c7e6;
+            margin-top: 5px;
+        }
+
+        .disclaimer {
+            background-color: #5c0000;
+            padding: 8px;
+            font-size: 11px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-top: 12px;
+            font-size: 13px;
+            color: #cfe3ff;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 4px;
+            border: none;
+            font-size: 14px;
+        }
+
+        input {
+            background-color: #e9f1ff;
+        }
+
+        select {
+            background-color: #e9f1ff;
+        }
+
+        .login-btn {
+            margin-top: 20px;
+            width: 100%;
+            padding: 12px;
+            background-color: #1f5fa8;
+            border: none;
+            color: #ffffff;
+            font-size: 15px;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .login-btn:hover {
+            background-color: #2b75c9;
+        }
+
+        .footer {
+            margin-top: 15px;
+            font-size: 11px;
+            color: #9bb7dc;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-container">
+    <div class="header">
+        <h1>FLINT POLICE DEPARTMENT</h1>
+        <p>CAD / MDT / Records Access</p>
+    </div>
+
+    <div class="disclaimer">
+        ⚠ Authorized Personnel Only. Unauthorized access is prohibited and may result in criminal prosecution.
+    </div>
+
+    <form onsubmit="return login();">
+        <label for="username">Username</label>
+        <input type="text" id="username" required>
+
+        <label for="password">Password</label>
+        <input type="password" id="password" required>
+
+        <label for="badge">Badge / Unit Number</label>
+        <input type="text" id="badge" required>
+
+        <label for="role">System Role</label>
+        <select id="role" required>
+            <option value="">Select Role</option>
+            <option>Patrol Officer</option>
+            <option>Dispatcher</option>
+            <option>Supervisor</option>
+            <option>Administrator</option>
+        </select>
+
+        <button type="submit" class="login-btn">LOGIN</button>
+    </form>
+
+    <div class="footer">
+        © Flint Police Department • Secure Law Enforcement Network
+    </div>
+</div>
+
+<script>
+    function login() {
+        const user = document.getElementById("username").value;
+        const role = document.getElementById("role").value;
+
+        alert(
+            "Login successful.\n\n" +
+            "User: " + user + "\n" +
+            "Role: " + role + "\n\n" +
+            "Connecting to CAD/MDT system..."
+        );
+
+        // Placeholder for real authentication logic
+        return false;
+    }
+</script>
+
+</body>
+</html>
 
