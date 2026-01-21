@@ -6,7 +6,7 @@ const users = [
         badge: "837",
         position: "Sergeant",
         username: "stiffler837",
-        password: "71657165Fr."
+        password: "auto."
     }
 ];
 
