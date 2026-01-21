@@ -2,6 +2,7 @@ window.onload = () => {
     loadReports();
 };
 
+// Load all reports from localStorage
 function loadReports() {
     const reports = JSON.parse(localStorage.getItem("reports") || "[]");
     const list = document.getElementById("reportList");
@@ -12,20 +13,21 @@ function loadReports() {
         return;
     }
 
-    reports.forEach((rpt, index) => {
+    reports.forEach((report) => {
         const card = document.createElement("div");
         card.className = "report-card";
         card.innerHTML = `
-            <strong>${rpt.reportNumber || "N/A"}</strong> - ${rpt.reportType || "Unknown"}<br>
-            Officer: ${rpt.reportingOfficer || "N/A"}<br>
-            Date: ${rpt.reportDateTime || "N/A"}<br>
-            Location: ${rpt.location || "N/A"}
+            <strong>${report.reportNumber || "N/A"}</strong> - ${report.reportType || "Unknown"}<br>
+            Officer: ${report.reportingOfficer || "N/A"}<br>
+            Date: ${report.reportDateTime || "N/A"}<br>
+            Location: ${report.location || "N/A"}
         `;
-        card.addEventListener("click", () => showDetail(rpt));
+        card.addEventListener("click", () => showDetail(report));
         list.appendChild(card);
     });
 }
 
+// Show detailed report modal
 function showDetail(report) {
     const detail = document.getElementById("reportDetail");
     const content = document.getElementById("detailContent");
@@ -34,7 +36,7 @@ function showDetail(report) {
     function renderSection(title, obj) {
         if(!obj) return "";
         let html = `<div class="detail-section"><h3>${title}</h3><ul>`;
-        for(const key in obj) {
+        for(const key in obj){
             let value = obj[key];
             if(Array.isArray(value)) value = value.join(", ");
             html += `<li><strong>${key}:</strong> ${value}</li>`;
@@ -56,16 +58,16 @@ function showDetail(report) {
         ${renderSection("Notes", {Notes: report.notes})}
     `;
 
-    // Seized property
+    // Seized Property
     if(report.propertyDesc && report.propertyDesc.length > 0) {
         html += `<div class="detail-section"><h3>Seized Property</h3><ul>`;
-        report.propertyDesc.forEach((desc, i) => {
+        report.propertyDesc.forEach((desc,i)=>{
             html += `<li>${desc} - ID: ${report.propertyID[i] || "N/A"}</li>`;
         });
-        html += "</ul></div>";
+        html += `</ul></div>`;
     }
 
-    // Persons (suspects, victims, witnesses)
+    // Persons
     ["suspect","victim","witness"].forEach(type => {
         const names = report[`${type}Name`] || [];
         if(names.length > 0){
@@ -81,20 +83,20 @@ function showDetail(report) {
                 if(type === "witness" && report["witnessStatement"]) html += ` | Statement: ${report["witnessStatement"][i] || "N/A"}`;
                 html += `</li>`;
             });
-            html += "</ul></div>";
+            html += `</ul></div>`;
         }
     });
 
-    // Charges (arrests)
+    // Charges
     if(report.chargeTitle && report.chargeTitle.length > 0){
         html += `<div class="detail-section"><h3>Charges</h3><ul>`;
         report.chargeTitle.forEach((title,i)=>{
             html += `<li>${title} | Statute: ${report.chargeStatute[i] || "N/A"} | Class: ${report.chargeClass[i] || "N/A"}</li>`;
         });
-        html += "</ul></div>";
+        html += `</ul></div>`;
     }
 
-    // Vehicles (accidents)
+    // Vehicles
     if(report.vehicleOwner && report.vehicleOwner.length > 0){
         html += `<div class="detail-section"><h3>Vehicles</h3><ul>`;
         report.vehicleOwner.forEach((owner,i)=>{
@@ -103,7 +105,7 @@ function showDetail(report) {
         html += `</ul></div>`;
     }
 
-    // Property Damage (accidents)
+    // Property Damage
     if(report.damageDesc && report.damageDesc.length > 0){
         html += `<div class="detail-section"><h3>Property Damage</h3><ul>`;
         report.damageDesc.forEach(desc => html += `<li>${desc}</li>`);
@@ -113,7 +115,7 @@ function showDetail(report) {
     content.innerHTML = html;
 }
 
-// Close detail
-document.getElementById("closeDetail").addEventListener("click", () => {
+// Close modal
+document.getElementById("closeDetail").addEventListener("click", ()=>{
     document.getElementById("reportDetail").classList.add("hidden");
 });
