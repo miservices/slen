@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FPD Incident Report</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/incident-report.css">
+</head>
+<body>
+
+<div class="report-container">
+    <h1>FPD Incident Report</h1>
+    <form id="reportForm">
+
+        <!-- Report Info -->
+        <fieldset>
+            <legend>Report Information</legend>
+            <label>Report Number
+                <input type="text" id="reportNumber" placeholder="Auto-generated">
+            </label>
+            <label>Date & Time
+                <input type="datetime-local" id="reportDateTime">
+            </label>
+            <label>Reporting Agency
+                <select id="reportingAgency">
+                    <option>Flint Police Department</option>
+                    <option>Genesee County Sheriff Office</option>
+                    <option>Michigan State Police</option>
+                    <option>Redacted</option>
+                </select>
+            </label>
+            <label>Reporting Officer
+                <input type="text" id="reportingOfficer">
+            </label>
+            <label>Location
+                <input type="text" id="location" value="Flint, Michigan">
+            </label>
+            <label>Type of Report
+                <select id="reportType">
+                    <option value="incident">Incident</option>
+                    <option value="arrest">Arrest</option>
+                    <option value="accident">Accident</option>
+                </select>
+            </label>
+        </fieldset>
+
+        <!-- Persons Section -->
+        <fieldset>
+            <legend>Persons</legend>
+            <div class="person-section" id="suspects">
+                <h3>Suspects <button type="button" onclick="addPerson('suspect')">+</button></h3>
+                <div class="person-list" id="suspectList"></div>
+            </div>
+            <div class="person-section" id="victims">
+                <h3>Victims <button type="button" onclick="addPerson('victim')">+</button></h3>
+                <div class="person-list" id="victimList"></div>
+            </div>
+            <div class="person-section" id="witnesses">
+                <h3>Witnesses <button type="button" onclick="addPerson('witness')">+</button></h3>
+                <div class="person-list" id="witnessList"></div>
+            </div>
+        </fieldset>
+
+        <!-- Seized Property -->
+        <fieldset>
+            <legend>Seized Property <button type="button" onclick="addSeizedProperty()">+</button></legend>
+            <div id="seizedPropertyList"></div>
+        </fieldset>
+
+        <!-- Narrative -->
+        <fieldset>
+            <legend>Narrative</legend>
+            <textarea id="narrative" placeholder="Write the narrative here..." rows="6"></textarea>
+        </fieldset>
+
+        <!-- Notes -->
+        <fieldset>
+            <legend>Notes</legend>
+            <textarea id="notes" placeholder="Additional notes..." rows="4"></textarea>
+        </fieldset>
+
+        <!-- Arrest Specific -->
+        <fieldset id="arrestSection" class="hidden">
+            <legend>Arrest Report</legend>
+            <label>Mugshot Link
+                <input type="text" id="mugshot" placeholder="Paste link here">
+            </label>
+            <div>
+                <h4>Charges <button type="button" onclick="addCharge()">+</button></h4>
+                <div id="chargeList"></div>
+            </div>
+        </fieldset>
+
+        <!-- Accident Specific -->
+        <fieldset id="accidentSection" class="hidden">
+            <legend>Accident Report</legend>
+            <label>Lighting Conditions
+                <input type="text" id="lighting" placeholder="Daylight, Night, etc.">
+            </label>
+            <label>Weather Conditions
+                <input type="text" id="weather" placeholder="Icy, Rain, etc.">
+            </label>
+
+            <h4>Vehicle Information <button type="button" onclick="addVehicle()">+</button></h4>
+            <div id="vehicleList"></div>
+
+            <h4>Contributing Factors</h4>
+            <input type="text" id="contributingFactors" placeholder="Speeding, DUI, etc.">
+
+            <h4>Property Damage <button type="button" onclick="addPropertyDamage()">+</button></h4>
+            <div id="propertyDamageList"></div>
+        </fieldset>
+
+        <button type="submit">Submit Report</button>
+    </form>
+</div>
+
+<script src="js/incident-report.js"></script>
+</body>
+</html>
