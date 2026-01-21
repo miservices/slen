@@ -1,28 +1,28 @@
-// Load and display all reports on page load
+// Load reports on page load
 window.onload = () => {
     displayReports(JSON.parse(localStorage.getItem("reports") || "[]"));
 };
 
-// Display reports in table
 function displayReports(reports) {
-    const tbody = document.querySelector("#reportsTable tbody");
-    tbody.innerHTML = "";
+    const container = document.getElementById("reportCards");
+    container.innerHTML = "";
 
-    if(reports.length === 0){
-        tbody.innerHTML = `<tr><td colspan="5">No reports found.</td></tr>`;
+    if (reports.length === 0) {
+        container.innerHTML = "<p>No reports found.</p>";
         return;
     }
 
     reports.forEach((report, index) => {
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-            <td>${report.reportNumber || "N/A"}</td>
-            <td>${report.reportDateTime || "N/A"}</td>
-            <td>${report.reportingOfficer || "N/A"}</td>
-            <td>${report.reportType || "N/A"}</td>
-            <td><button class="view-btn" onclick="viewReport(${index})">View</button></td>
+        const card = document.createElement("div");
+        card.classList.add("report-card");
+        card.innerHTML = `
+            <h3>${report.reportNumber || "N/A"}</h3>
+            <p><strong>Type:</strong> ${report.reportType || "N/A"}</p>
+            <p><strong>Officer:</strong> ${report.reportingOfficer || "N/A"}</p>
+            <p><strong>Date:</strong> ${report.reportDateTime || "N/A"}</p>
         `;
-        tbody.appendChild(tr);
+        card.addEventListener("click", () => viewReport(index));
+        container.appendChild(card);
     });
 }
 
@@ -52,12 +52,38 @@ function resetFilters() {
     displayReports(JSON.parse(localStorage.getItem("reports") || "[]"));
 }
 
-// View full report in modal
+// Show detailed report in modal
 function viewReport(index) {
     const reports = JSON.parse(localStorage.getItem("reports") || "[]");
     const report = reports[index];
 
-    document.getElementById("fullReport").textContent = JSON.stringify(report, null, 2);
+    let html = `<h2>${report.reportNumber}</h2>`;
+    html += `<p><strong>Type:</strong> ${report.reportType}</p>`;
+    html += `<p><strong>Officer:</strong> ${report.reportingOfficer}</p>`;
+    html += `<p><strong>Date:</strong> ${report.reportDateTime}</p>`;
+    html += `<p><strong>Agency:</strong> ${report.reportingAgency}</p>`;
+    html += `<p><strong>Location:</strong> ${report.location}</p>`;
+
+    // Persons
+    ["suspect", "victim", "witness"].forEach(type => {
+        const names = report[`${type}Name[]`];
+        if (names) {
+            html += `<h3>${type.charAt(0).toUpperCase() + type.slice(1)}s</h3>`;
+            if (Array.isArray(names)) {
+                names.forEach((n, i) => {
+                    html += `<p><strong>Name:</strong> ${n}, <strong>DOB:</strong> ${report[`${type}DOB[]`][i] || ''}</p>`;
+                });
+            } else {
+                html += `<p><strong>Name:</strong> ${names}, <strong>DOB:</strong> ${report[`${type}DOB[]`] || ''}</p>`;
+            }
+        }
+    });
+
+    // Narrative & Notes
+    if(report.narrative) html += `<h3>Narrative</h3><p>${report.narrative}</p>`;
+    if(report.notes) html += `<h3>Notes</h3><p>${report.notes}</p>`;
+
+    document.getElementById("reportDetails").innerHTML = html;
     document.getElementById("reportModal").classList.remove("hidden");
 }
 

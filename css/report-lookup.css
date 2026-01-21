@@ -17,13 +17,14 @@ body {
 
 h1 {
     text-align: center;
+    margin-bottom: 20px;
 }
 
 .search-filters {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
 .search-filters input, .search-filters select, .search-filters button {
@@ -42,31 +43,34 @@ h1 {
     background-color: #2b75c9;
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
+/* Card view */
+.cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
 }
 
-table, th, td {
-    border: 1px solid #2b5a82;
-}
-
-th, td {
-    padding: 8px;
-    text-align: left;
-}
-
-button.view-btn {
-    background-color: #1f5fa8;
-    color: white;
-    padding: 5px 10px;
-    border-radius: 4px;
+.report-card {
+    background-color: #1b3b5b;
+    padding: 15px;
+    border-radius: 6px;
+    width: 250px;
     cursor: pointer;
+    transition: transform 0.2s;
 }
 
-button.view-btn:hover {
-    background-color: #2b75c9;
+.report-card:hover {
+    transform: scale(1.03);
+}
+
+.report-card h3 {
+    margin: 0 0 5px 0;
+    color: #cfe3ff;
+}
+
+.report-card p {
+    margin: 2px 0;
+    font-size: 14px;
 }
 
 /* Modal */
@@ -83,18 +87,12 @@ button.view-btn:hover {
 
 .modal-content {
     background-color: #0f243a;
-    margin: 10% auto;
+    margin: 5% auto;
     padding: 20px;
     border-radius: 8px;
     width: 80%;
     max-height: 80%;
     overflow-y: auto;
-}
-
-.modal pre {
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    color: #cfe3ff;
 }
 
 .close {
@@ -104,6 +102,10 @@ button.view-btn:hover {
     font-weight: bold;
     cursor: pointer;
 }
-.hidden {
-    display: none;
+
+#reportDetails {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    color: #cfe3ff;
+    font-size: 14px;
 }

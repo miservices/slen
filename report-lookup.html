@@ -10,6 +10,7 @@
 <div class="lookup-container">
     <h1>FPD Report Lookup</h1>
 
+    <!-- Filters -->
     <div class="search-filters">
         <input type="text" id="searchNumber" placeholder="Search by Report Number">
         <input type="text" id="searchOfficer" placeholder="Search by Officer">
@@ -23,26 +24,18 @@
         <button onclick="resetFilters()">Reset</button>
     </div>
 
-    <table id="reportsTable">
-        <thead>
-            <tr>
-                <th>Report Number</th>
-                <th>Date & Time</th>
-                <th>Officer</th>
-                <th>Type</th>
-                <th>View</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Reports will populate here -->
-        </tbody>
-    </table>
+    <!-- Cards -->
+    <div id="reportCards" class="cards-container">
+        <!-- Report cards injected here -->
+    </div>
 
-    <!-- Modal for full report details -->
+    <!-- Modal for full report -->
     <div id="reportModal" class="modal hidden">
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
-            <pre id="fullReport"></pre>
+            <div id="reportDetails">
+                <!-- Detailed report content here -->
+            </div>
         </div>
     </div>
 </div>
