@@ -37,6 +37,7 @@ h1 {
 }
 
 /* Detailed View Modal */
+/* Detailed View Modal */
 .report-detail {
     position: fixed;
     top: 0;
@@ -47,15 +48,17 @@ h1 {
     background: rgba(11, 28, 45, 0.95);
     padding: 40px 20px;
     z-index: 1000;
+
+    /* Hidden by default */
+    display: none;
+}
+
+.report-detail.show {
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    transition: opacity 0.2s ease-in-out;
 }
 
-.report-detail.hidden {
-    display: none !important;
-}
 
 #detailContent {
     width: 100%;
