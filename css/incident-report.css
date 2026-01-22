@@ -1,22 +1,17 @@
 body {
     margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: Arial, sans-serif;
     background: linear-gradient(135deg, #0b1c2d, #1a3552);
-    color: #ffffff;
+    color: white;
     padding: 20px;
 }
 
 .report-container {
     max-width: 1200px;
     margin: auto;
-    background-color: #0f243a;
-    border-radius: 8px;
+    background: #0f243a;
     padding: 20px;
-    box-shadow: 0 0 25px rgba(0,0,0,0.6);
-}
-
-h1, h2, h3, h4 {
-    margin: 10px 0;
+    border-radius: 8px;
 }
 
 fieldset {
@@ -31,39 +26,59 @@ legend {
 }
 
 label {
-    display: block;
-    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
 }
 
 input, select, textarea {
-    width: 100%;
     padding: 8px;
-    margin-top: 4px;
     border-radius: 4px;
     border: none;
 }
 
 button {
-    margin-top: 10px;
-    padding: 6px 12px;
-    background-color: #1f5fa8;
+    background: #1f5fa8;
     border: none;
     color: white;
+    padding: 6px 12px;
     border-radius: 4px;
     cursor: pointer;
 }
 
 button:hover {
-    background-color: #2b75c9;
+    background: #2b75c9;
 }
 
 .hidden {
     display: none;
 }
 
-.person-card, .property-card, .charge-card, .vehicle-card, .occupant-card, .damage-card {
-    background-color: #1b3b5b;
+.grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.person-card,
+.property-card,
+.charge-card,
+.vehicle-card,
+.damage-card {
+    background: #1b3b5b;
     padding: 10px;
-    margin-top: 10px;
     border-radius: 4px;
+    margin-top: 10px;
+    position: relative;
+}
+
+.remove-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: #a83232;
+    border: none;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 2px 6px;
 }

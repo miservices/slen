@@ -1,14 +1,10 @@
-// ===== PRE-FILL DEFAULTS =====
 window.onload = () => {
-    const officer = JSON.parse(localStorage.getItem("userData")) || { name: "" };
-    document.getElementById("reportingOfficer").value = officer.name;
-    document.getElementById("reportDateTime").value = new Date().toISOString().slice(0,16);
+    document.getElementById("reportDateTime").value =
+        new Date().toISOString().slice(0, 16);
 
-    // Show/hide sections based on type
     toggleReportSections();
 };
 
-// ===== TOGGLE ARREST/ACCIDENT SECTIONS =====
 document.getElementById("reportType").addEventListener("change", toggleReportSections);
 
 function toggleReportSections() {
@@ -17,108 +13,124 @@ function toggleReportSections() {
     document.getElementById("accidentSection").classList.toggle("hidden", type !== "accident");
 }
 
-// ===== ADD PERSON =====
+function removeCard(btn) {
+    btn.parentElement.remove();
+}
+
+function personTemplate(type) {
+    return `
+        <button type="button" class="remove-btn" onclick="removeCard(this)">✕</button>
+        <div class="grid-2">
+            <label>Name* <input name="${type}Name[]"></label>
+            <label>DOB* <input type="date" name="${type}DOB[]"></label>
+            <label>Race
+                <select name="${type}Race[]">
+                    <option>White</option>
+                    <option>Black</option>
+                    <option>Asian</option>
+                    <option>Native American</option>
+                    <option>Hispanic</option>
+                    <option>Other</option>
+                </select>
+            </label>
+            <label>Sex*
+                <select name="${type}Sex[]">
+                    <option>Male</option>
+                    <option>Female</option>
+                    <option>Other</option>
+                </select>
+            </label>
+            <label>Address <input name="${type}Address[]"></label>
+            <label>Descriptors <input name="${type}Descriptors[]"></label>
+        </div>
+    `;
+}
+
 function addPerson(type) {
-    const container = document.getElementById(type + "List");
     const div = document.createElement("div");
-    div.classList.add("person-card");
-    div.innerHTML = `
-        <label>Name* <input type="text" name="${type}Name[]"></label>
-        <label>DOB* <input type="date" name="${type}DOB[]"></label>
-        <label>Race <input type="text" name="${type}Race[]"></label>
-        <label>Sex* <input type="text" name="${type}Sex[]"></label>
-        <label>Address <input type="text" name="${type}Address[]"></label>
-        <label>Physical Descriptors <input type="text" name="${type}Descriptors[]"></label>
-        ${type === "victim" ? '<label>Injuries <input type="text" name="victimInjuries[]"></label><label>Statement <textarea name="victimStatement[]"></textarea></label>' : ''}
-        ${type === "witness" ? '<label>Statement <textarea name="witnessStatement[]"></textarea></label>' : ''}
-    `;
-    container.appendChild(div);
+    div.className = "person-card";
+    div.innerHTML = personTemplate(type);
+    if (type === "victim") {
+        div.innerHTML += `<label>Injuries <input name="victimInjuries[]"></label>
+                          <label>Statement <textarea name="victimStatement[]"></textarea></label>`;
+    }
+    if (type === "witness") {
+        div.innerHTML += `<label>Statement <textarea name="witnessStatement[]"></textarea></label>`;
+    }
+    document.getElementById(type + "List").appendChild(div);
 }
 
-// ===== ADD SEIZED PROPERTY =====
 function addSeizedProperty() {
-    const container = document.getElementById("seizedPropertyList");
     const div = document.createElement("div");
-    div.classList.add("property-card");
+    div.className = "property-card";
     div.innerHTML = `
-        <label>Description <input type="text" name="propertyDesc[]"></label>
-        <label>Serial/ID <input type="text" name="propertyID[]"></label>
+        <button type="button" class="remove-btn" onclick="removeCard(this)">✕</button>
+        <label>Description <input name="propertyDesc[]"></label>
+        <label>Serial/ID <input name="propertyID[]"></label>
     `;
-    container.appendChild(div);
+    document.getElementById("seizedPropertyList").appendChild(div);
 }
 
-// ===== ADD CHARGE =====
 function addCharge() {
-    const container = document.getElementById("chargeList");
     const div = document.createElement("div");
-    div.classList.add("charge-card");
+    div.className = "charge-card";
     div.innerHTML = `
-        <label>Title <input type="text" value="Assault" name="chargeTitle[]"></label>
-        <label>Statute <input type="text" value="123.45" name="chargeStatute[]"></label>
-        <label>Class <input type="text" value="Misdemeanor" name="chargeClass[]"></label>
+        <button type="button" class="remove-btn" onclick="removeCard(this)">✕</button>
+        <label>Title <input name="chargeTitle[]" value="Assault"></label>
+        <label>Statute <input name="chargeStatute[]" value="750.81"></label>
+        <label>Class <input name="chargeClass[]" value="Misdemeanor"></label>
     `;
-    container.appendChild(div);
+    document.getElementById("chargeList").appendChild(div);
 }
 
-// ===== ADD VEHICLE =====
 function addVehicle() {
-    const container = document.getElementById("vehicleList");
     const div = document.createElement("div");
-    div.classList.add("vehicle-card");
+    div.className = "vehicle-card";
     div.innerHTML = `
-        <label>Owner Name <input type="text" name="vehicleOwner[]"></label>
-        <label>Model/Color <input type="text" name="vehicleModelColor[]"></label>
-        <label>License Plate & State <input type="text" name="vehiclePlate[]"></label>
-        <label>Damage Description <input type="text" name="vehicleDamage[]"></label>
+        <button type="button" class="remove-btn" onclick="removeCard(this)">✕</button>
+        <label>Owner <input name="vehicleOwner[]"></label>
+        <label>Model/Color <input name="vehicleModelColor[]"></label>
+        <label>Plate <input name="vehiclePlate[]"></label>
+        <label>Damage <input name="vehicleDamage[]"></label>
         <label>Towed
             <select name="vehicleTowed[]">
-                <option value="No" selected>No</option>
+                <option>No</option>
                 <option>Yes</option>
             </select>
         </label>
-        <label>Documents <input type="text" name="vehicleDocs[]"></label>
+        <label>Documents <input name="vehicleDocs[]"></label>
     `;
-    container.appendChild(div);
+    document.getElementById("vehicleList").appendChild(div);
 }
 
-// ===== ADD PROPERTY DAMAGE =====
 function addPropertyDamage() {
-    const container = document.getElementById("propertyDamageList");
     const div = document.createElement("div");
-    div.classList.add("damage-card");
-    div.innerHTML = `<label>Description <input type="text" name="damageDesc[]"></label>`;
-    container.appendChild(div);
+    div.className = "damage-card";
+    div.innerHTML = `
+        <button type="button" class="remove-btn" onclick="removeCard(this)">✕</button>
+        <label>Description <input name="damageDesc[]"></label>
+    `;
+    document.getElementById("propertyDamageList").appendChild(div);
 }
 
-// ===== FORM SUBMIT =====
-document.getElementById("reportForm").addEventListener("submit", function(e) {
+document.getElementById("reportForm").addEventListener("submit", function (e) {
     e.preventDefault();
 
     const data = new FormData(this);
     const json = {};
 
-    // Convert FormData into JSON
-    data.forEach((value, key) => {
-        if(json[key]) {
-            if(Array.isArray(json[key])) json[key].push(value);
-            else json[key] = [json[key], value];
-        } else {
-            json[key] = value;
-        }
+    data.forEach((v, k) => {
+        if (json[k]) {
+            if (!Array.isArray(json[k])) json[k] = [json[k]];
+            json[k].push(v);
+        } else json[k] = v;
     });
 
-    // Assign unique report number if empty
-    if(!json.reportNumber || json.reportNumber === "Auto-generated") {
-        json.reportNumber = "RPT-" + Date.now();
-    }
+    json.reportNumber ||= "RPT-" + Date.now();
 
-    // Save to localStorage
-    let reports = JSON.parse(localStorage.getItem("reports") || "[]");
+    const reports = JSON.parse(localStorage.getItem("reports") || "[]");
     reports.push(json);
     localStorage.setItem("reports", JSON.stringify(reports));
 
-    alert("Report submitted and saved!");
-    console.log("Saved Reports:", reports);
-    // Optionally reset the form
-    // this.reset();
+    alert("Report saved.");
 });

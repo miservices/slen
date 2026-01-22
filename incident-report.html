@@ -1,120 +1,124 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>FPD Incident Report</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/incident-report.css">
-</head>
-<body>
+// ===== PRE-FILL DEFAULTS =====
+window.onload = () => {
+    const officer = JSON.parse(localStorage.getItem("userData")) || { name: "" };
+    document.getElementById("reportingOfficer").value = officer.name;
+    document.getElementById("reportDateTime").value = new Date().toISOString().slice(0,16);
 
-<div class="report-container">
-    <h1>FPD Incident Report</h1>
-    <form id="reportForm">
+    // Show/hide sections based on type
+    toggleReportSections();
+};
 
-        <!-- Report Info -->
-        <fieldset>
-            <legend>Report Information</legend>
-            <label>Report Number
-                <input type="text" id="reportNumber" name="reportNumber" placeholder="Auto-generated">
-            </label>
-            <label>Date & Time
-                <input type="datetime-local" id="reportDateTime" name="reportDateTime">
-            </label>
-            <label>Reporting Agency
-                <select id="reportingAgency" name="reportingAgency">
-                    <option>Flint Police Department</option>
-                    <option>Genesee County Sheriff Office</option>
-                    <option>Michigan State Police</option>
-                    <option>Redacted</option>
-                </select>
-            </label>
-            <label>Reporting Officer
-                <input type="text" id="reportingOfficer" name="reportingOfficer">
-            </label>
-            <label>Location
-                <input type="text" id="location" name="location" value="Flint, Michigan">
-            </label>
-            <label>Type of Report
-                <select id="reportType" name="reportType">
-                    <option value="incident">Incident</option>
-                    <option value="arrest">Arrest</option>
-                    <option value="accident">Accident</option>
-                </select>
-            </label>
-        </fieldset>
+// ===== TOGGLE ARREST/ACCIDENT SECTIONS =====
+document.getElementById("reportType").addEventListener("change", toggleReportSections);
 
-        <!-- Persons Section -->
-        <fieldset>
-            <legend>Persons</legend>
-            <div class="person-section" id="suspects">
-                <h3>Suspects <button type="button" onclick="addPerson('suspect')">+</button></h3>
-                <div class="person-list" id="suspectList"></div>
-            </div>
-            <div class="person-section" id="victims">
-                <h3>Victims <button type="button" onclick="addPerson('victim')">+</button></h3>
-                <div class="person-list" id="victimList"></div>
-            </div>
-            <div class="person-section" id="witnesses">
-                <h3>Witnesses <button type="button" onclick="addPerson('witness')">+</button></h3>
-                <div class="person-list" id="witnessList"></div>
-            </div>
-        </fieldset>
+function toggleReportSections() {
+    const type = document.getElementById("reportType").value;
+    document.getElementById("arrestSection").classList.toggle("hidden", type !== "arrest");
+    document.getElementById("accidentSection").classList.toggle("hidden", type !== "accident");
+}
 
-        <!-- Seized Property -->
-        <fieldset>
-            <legend>Seized Property <button type="button" onclick="addSeizedProperty()">+</button></legend>
-            <div id="seizedPropertyList"></div>
-        </fieldset>
+// ===== ADD PERSON =====
+function addPerson(type) {
+    const container = document.getElementById(type + "List");
+    const div = document.createElement("div");
+    div.classList.add("person-card");
+    div.innerHTML = `
+        <label>Name* <input type="text" name="${type}Name[]"></label>
+        <label>DOB* <input type="date" name="${type}DOB[]"></label>
+        <label>Race <input type="text" name="${type}Race[]"></label>
+        <label>Sex* <input type="text" name="${type}Sex[]"></label>
+        <label>Address <input type="text" name="${type}Address[]"></label>
+        <label>Physical Descriptors <input type="text" name="${type}Descriptors[]"></label>
+        ${type === "victim" ? '<label>Injuries <input type="text" name="victimInjuries[]"></label><label>Statement <textarea name="victimStatement[]"></textarea></label>' : ''}
+        ${type === "witness" ? '<label>Statement <textarea name="witnessStatement[]"></textarea></label>' : ''}
+    `;
+    container.appendChild(div);
+}
 
-        <!-- Narrative -->
-        <fieldset>
-            <legend>Narrative</legend>
-            <textarea id="narrative" name="narrative" placeholder="Write the narrative here..." rows="6"></textarea>
-        </fieldset>
+// ===== ADD SEIZED PROPERTY =====
+function addSeizedProperty() {
+    const container = document.getElementById("seizedPropertyList");
+    const div = document.createElement("div");
+    div.classList.add("property-card");
+    div.innerHTML = `
+        <label>Description <input type="text" name="propertyDesc[]"></label>
+        <label>Serial/ID <input type="text" name="propertyID[]"></label>
+    `;
+    container.appendChild(div);
+}
 
-        <!-- Notes -->
-        <fieldset>
-            <legend>Notes</legend>
-            <textarea id="notes" name="notes" placeholder="Additional notes..." rows="4"></textarea>
-        </fieldset>
+// ===== ADD CHARGE =====
+function addCharge() {
+    const container = document.getElementById("chargeList");
+    const div = document.createElement("div");
+    div.classList.add("charge-card");
+    div.innerHTML = `
+        <label>Title <input type="text" value="Assault" name="chargeTitle[]"></label>
+        <label>Statute <input type="text" value="123.45" name="chargeStatute[]"></label>
+        <label>Class <input type="text" value="Misdemeanor" name="chargeClass[]"></label>
+    `;
+    container.appendChild(div);
+}
 
-        <!-- Arrest Specific -->
-        <fieldset id="arrestSection" class="hidden">
-            <legend>Arrest Report</legend>
-            <label>Mugshot Link
-                <input type="text" id="mugshot" name="mugshot" placeholder="Paste link here">
-            </label>
-            <div>
-                <h4>Charges <button type="button" onclick="addCharge()">+</button></h4>
-                <div id="chargeList"></div>
-            </div>
-        </fieldset>
+// ===== ADD VEHICLE =====
+function addVehicle() {
+    const container = document.getElementById("vehicleList");
+    const div = document.createElement("div");
+    div.classList.add("vehicle-card");
+    div.innerHTML = `
+        <label>Owner Name <input type="text" name="vehicleOwner[]"></label>
+        <label>Model/Color <input type="text" name="vehicleModelColor[]"></label>
+        <label>License Plate & State <input type="text" name="vehiclePlate[]"></label>
+        <label>Damage Description <input type="text" name="vehicleDamage[]"></label>
+        <label>Towed
+            <select name="vehicleTowed[]">
+                <option value="No" selected>No</option>
+                <option>Yes</option>
+            </select>
+        </label>
+        <label>Documents <input type="text" name="vehicleDocs[]"></label>
+    `;
+    container.appendChild(div);
+}
 
-        <!-- Accident Specific -->
-        <fieldset id="accidentSection" class="hidden">
-            <legend>Accident Report</legend>
-            <label>Lighting Conditions
-                <input type="text" id="lighting" name="lighting" placeholder="Daylight, Night, etc.">
-            </label>
-            <label>Weather Conditions
-                <input type="text" id="weather" name="weather" placeholder="Icy, Rain, etc.">
-            </label>
+// ===== ADD PROPERTY DAMAGE =====
+function addPropertyDamage() {
+    const container = document.getElementById("propertyDamageList");
+    const div = document.createElement("div");
+    div.classList.add("damage-card");
+    div.innerHTML = `<label>Description <input type="text" name="damageDesc[]"></label>`;
+    container.appendChild(div);
+}
 
-            <h4>Vehicle Information <button type="button" onclick="addVehicle()">+</button></h4>
-            <div id="vehicleList"></div>
+// ===== FORM SUBMIT =====
+document.getElementById("reportForm").addEventListener("submit", function(e) {
+    e.preventDefault();
 
-            <h4>Contributing Factors</h4>
-            <input type="text" id="contributingFactors" name="contributingFactors" placeholder="Speeding, DUI, etc.">
+    const data = new FormData(this);
+    const json = {};
 
-            <h4>Property Damage <button type="button" onclick="addPropertyDamage()">+</button></h4>
-            <div id="propertyDamageList"></div>
-        </fieldset>
+    // Convert FormData into JSON
+    data.forEach((value, key) => {
+        if(json[key]) {
+            if(Array.isArray(json[key])) json[key].push(value);
+            else json[key] = [json[key], value];
+        } else {
+            json[key] = value;
+        }
+    });
 
-        <button type="submit">Submit Report</button>
-    </form>
-</div>
+    // Assign unique report number if empty
+    if(!json.reportNumber || json.reportNumber === "Auto-generated") {
+        json.reportNumber = "RPT-" + Date.now();
+    }
 
-<script src="js/incident-report.js"></script>
-</body>
-</html>
+    // Save to localStorage
+    let reports = JSON.parse(localStorage.getItem("reports") || "[]");
+    reports.push(json);
+    localStorage.setItem("reports", JSON.stringify(reports));
+
+    alert("Report submitted and saved!");
+    console.log("Saved Reports:", reports);
+    // Optionally reset the form
+    // this.reset();
+});
