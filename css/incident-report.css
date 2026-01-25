@@ -2,7 +2,7 @@ body {
     margin: 0;
     font-family: Arial, sans-serif;
     background: linear-gradient(135deg, #0b1c2d, #1a3552);
-    color: white;
+    color: #fff;
     padding: 20px;
 }
 
@@ -28,6 +28,7 @@ legend {
 label {
     display: flex;
     flex-direction: column;
+    margin-bottom: 8px;
 }
 
 input, select, textarea {
@@ -49,13 +50,11 @@ button:hover {
     background: #2b75c9;
 }
 
-.hidden {
-    display: none;
-}
+.hidden { display: none; }
 
 .grid-2 {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr 1fr;
     gap: 12px;
 }
 
@@ -66,8 +65,8 @@ button:hover {
 .damage-card {
     background: #1b3b5b;
     padding: 10px;
-    border-radius: 4px;
     margin-top: 10px;
+    border-radius: 4px;
     position: relative;
 }
 
