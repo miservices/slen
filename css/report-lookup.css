@@ -83,12 +83,16 @@ h1 {
     background: #1f4b6b;
 }
 
+/* Detail Sections */
 .detail-section {
     margin-bottom: 20px;
+    background: #1b3b5b;
+    border-radius: 6px;
+    padding: 10px 15px;
 }
 
 .detail-section h3 {
-    margin-bottom: 8px;
+    margin-bottom: 10px;
     border-bottom: 1px solid #2b5a82;
     padding-bottom: 3px;
 }
@@ -96,14 +100,32 @@ h1 {
 .detail-section ul {
     list-style: none;
     padding-left: 0;
+    margin: 0;
 }
 
 .detail-section li {
-    margin-bottom: 6px;
-    padding: 4px 0;
-    border-bottom: 1px solid #1b3b5b;
+    margin-bottom: 8px;
+    padding: 6px 10px;
+    border-bottom: 1px solid #0f243a;
+    background: #0f2a44;
+    border-radius: 4px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 10px;
 }
 
 .detail-section li:last-child {
     border-bottom: none;
+}
+
+/* Paragraphs in narrative / notes */
+.detail-section p {
+    padding: 6px 10px;
+    background: #0f2a44;
+    border-radius: 4px;
+}
+
+/* Improve hover / selection readability */
+.detail-section li:hover {
+    background: #14406b;
 }
