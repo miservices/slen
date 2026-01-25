@@ -68,13 +68,21 @@ function addSeizedProperty(){
     document.getElementById("seizedPropertyList").appendChild(div);
 }
 
-function addCharge(){
-    const div=document.createElement("div");
-    div.className="charge-card";
-    div.innerHTML=`<button type="button" class="remove-btn" onclick="removeCard(this)">✕</button>
-                   <label>Title <input name="chargeTitle[]" value="Assault"></label>
-                   <label>Statute <input name="chargeStatute[]" value="750.81"></label>
-                   <label>Class <input name="chargeClass[]" value="Misdemeanor"></label>`;
+function addCharge() {
+    const div = document.createElement("div");
+    div.className = "charge-card";
+    div.innerHTML = `
+        <button type="button" class="remove-btn" onclick="removeCard(this)">✕</button>
+        <label>Title <input name="chargeTitle[]" value="Assault"></label>
+        <label>Statute <input name="chargeStatute[]" value="750.81"></label>
+        <label>Class
+            <select name="chargeClass[]">
+                <option>Misdemeanor</option>
+                <option>Felony</option>
+                <option>Infraction</option>
+            </select>
+        </label>
+    `;
     document.getElementById("chargeList").appendChild(div);
 }
 
