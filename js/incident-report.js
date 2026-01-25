@@ -49,6 +49,7 @@ function addPerson(type){
     const div = document.createElement("div");
     div.className="person-card";
     div.innerHTML=personTemplate(type);
+
     if(type==="victim"){
         div.innerHTML+= `<label>Injuries <input name="victimInjuries[]"></label>
                          <label>Statement <textarea name="victimStatement[]"></textarea></label>`;
@@ -112,6 +113,7 @@ function addPropertyDamage(){
     document.getElementById("propertyDamageList").appendChild(div);
 }
 
+// Submit
 document.getElementById("reportForm").addEventListener("submit", function(e){
     e.preventDefault();
     const data=new FormData(this);
@@ -120,7 +122,11 @@ document.getElementById("reportForm").addEventListener("submit", function(e){
         if(json[k]){
             if(!Array.isArray(json[k])) json[k]=[json[k]];
             json[k].push(v);
-        } else json[k]=v;
+        } else {
+            // Always store as array for repeated fields
+            if(k.endsWith("[]")) json[k.slice(0,-2)] = [v];
+            else json[k] = v;
+        }
     });
     json.reportNumber ||= "RPT-"+Date.now();
     const reports=JSON.parse(localStorage.getItem("reports")||"[]");
